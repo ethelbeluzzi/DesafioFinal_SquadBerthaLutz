@@ -58,5 +58,10 @@ Um superusuário foi criado para permitir acesso à interface administrativa, po
 - **View `post_detail`**: Implementada para exibir detalhes da postagem e gerenciar os comentários. Os usuários podem adicionar comentários às postagens.
 - **Formulário `ComentarioForm`**: Criado para facilitar a criação de novos comentários, permitindo que os usuários adicionem seu texto de comentário.
 
+### Testes - Banco de Dados
+- **A conexão com o banco de dados está funcional ao executar os comandos básicos.
+- **Os modelos gerados correspondem às tabelas no banco, com os relacionamentos (chaves estrangeiras) corretamente configurados.
+- **As operações de inserção, consulta e atualização de registros foram realizadas sem problemas.
+
 
 
