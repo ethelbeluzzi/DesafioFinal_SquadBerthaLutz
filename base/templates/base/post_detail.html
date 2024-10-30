@@ -1,49 +1,56 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
+<div class="container mt-4">
     <div class="post">
         {% if user.is_authenticated %}
-            <div class="btn-group">
-                {% if not post.data_publicacao %}
-                    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
-                        <button type="submit" class="btn btn-success btn-separado">publicar</button>
-                    </form>
-                {% endif %}
-                <form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-separado">apagar</button>
-                </form>
-                <a class="btn btn-primary btn-separado" href="{% url 'post_edit' pk=post.pk %}">
-                    <span class="glyphicon glyphicon-pencil" style="color: #fff;"></span>
-                    Editar
-                </a>
-            </div>
+        <div class="btn-group mb-3">
+            {% if not post.data_publicacao %}
+            <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form d-inline">{% csrf_token %}
+                <button type="submit" class="btn btn-success btn-separado">Publicar</button>
+            </form>
+            {% endif %}
+            <form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form d-inline">{% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-separado">Apagar</button>
+            </form>
+            <a class="btn btn-primary btn-separado" href="{% url 'post_edit' pk=post.pk %}">
+                <span class="glyphicon glyphicon-pencil" style="color: #fff;"></span>
+                Editar
+            </a>
+        </div>
         {% endif %}
-        <h2>{{ post.titulo }}</h2>
-        <p>{{ post.conteudo|linebreaksbr }}</p>
+        <h2 class="mb-3">{{ post.titulo }}</h2>
+        <p class="mb-4">{{ post.conteudo|linebreaksbr }}</p>
     </div>
 
     <div class="comentarios">
         <h3>Comentários</h3>
         {% for comentario in post.comentarios.all %}
-            <div class="comentario">
-                <strong>{{ comentario.autor }}</strong>
-                <p>{{ comentario.texto }}</p>
-                <p><em>{{ comentario.data_criacao|date:"F j, Y, g:i a" }}</em></p>
-            </div>
+        <div class="comentario mb-3 p-3 border rounded">
+            <strong>{{ comentario.autor }}</strong>
+            <p><strong>{{ comentario.texto }}</strong></p>
+            <p><em>{{ comentario.data_criacao|date:"F j, Y, g:i a" }}</em></p>
+        </div>
         {% empty %}
-            <p>Não há comentários ainda.</p>
+        <p>Não há comentários ainda.</p>
         {% endfor %}
-        
+
+
         {% if user.is_authenticated %}
-            <h4>Deixe seu comentário:</h4>
-            <form method="post">
-                {% csrf_token %}
+        <h4 class="mt-4">Deixe seu comentário:</h4>
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="mb-3">
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Comentar</button>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-primary">Comentar</button>
+        </form>
         {% else %}
+        <div class="alert alert-warning mt-4" role="alert">
             <p>Você precisa estar logado para comentar.</p>
+        </div>
         {% endif %}
     </div>
+</div>
 
 {% endblock %}
