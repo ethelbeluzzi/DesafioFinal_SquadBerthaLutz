@@ -10,6 +10,7 @@ Bem-vindo ao projeto de Blog do Squad Bertha Lutz! Este projeto é um sistema de
 - **Publicação de Rascunhos**: Sistema de rascunhos para postagens não publicadas.
 - **Autenticação de Usuário**: Login e controle de acesso para proteger funcionalidades restritas.
 - **Modo Claro e Escuro**: Alternância para uma experiência de leitura personalizada.
+- **Sistema de Comentários**: Permite a interação entre usuários
 
 ---
 
@@ -19,20 +20,57 @@ Bem-vindo ao projeto de Blog do Squad Bertha Lutz! Este projeto é um sistema de
 
 - **`/base`**: Contém as views, models, forms e URLs para o funcionamento do blog.
 - **`/base/templates`**: Templates HTML com layouts e estilos para o blog:
-  - `base.html`: Template base do layout principal.
-  - `post_list.html`: Lista de postagens publicadas.
-  - `post_detail.html`: Detalhes completos de uma postagem.
-  - `post_draft_list.html`: Lista de rascunhos de postagens.
-  - `post_edit.html`: Formulário para editar postagens.
-  - `login.html`: Formulário de login com verificação de erros.
 - **`/static`**: Arquivos de estilo (CSS) para modos claro e escuro.
 
 ### Estrutura do Código
 
-- **`models.py`**: Define a estrutura de dados das postagens.
-- **`views.py`**: Lida com as requisições e respostas para cada funcionalidade.
-- **`urls.py`**: Configura as rotas para cada view.
-- **`forms.py`**: Cria formulários de criação e edição de postagens.
+- **`base/admin.py`**: Classe de administração do Django formaliza como os objetos do modelo `Postagem` são exibidos no painel administrativo. As opções `list_display`, `list_filter` e `search_filds` configuram como as postagens são listada, filtradas e pesquisadas.
+- **`base/models.py`**: Define dois modelos `Postagens`, que representa uma postagem do blog, com atributos como título, conteúdo, data de postagem, e o método `publish` para publicar a postage, interessante notar que o campo `data_publicação` pode ser nulo, mais sobre isso em `base/views.py` e `Comentario`, que representa um comentário associado a uma postagem, e seu relacionamento com a classe `Postagens` . O diagrama abaixo explica as classes e as relações entre elas:
+```
+classDiagram
+  class Postagem {
+    titulo: string
+    conteudo: text
+    data_publicacao: DateTime (Nullable)
+    data_criacao: DateTime
+    autor: User
+    publish()
+    __str__()
+  }
+
+  class Comentario {
+    postagem: Postagem {relationName="comentarios"}
+    autor: User
+    texto: text
+    data_criacao: DateTime
+    __str__()
+  }
+
+  Postagem <->|autor| User
+  Comentario <->|autor| User
+  Postagem <-|postagem| Comentario
+```
+
+- **`base/views.py`**: Lida com as requisições e respostas para cada funcionalidade:
+	- `post_list`: exibe uma lista de postagens já publicadas;
+	- `post_detail`: exibe os detalhes de uma postagem específica e permite adicionar comentários;
+	- `post_new`: cria uma nova postagem sua chave estrangeira `<pk>`. (requer que o usuário esteja logado usando o decorador do Django `@login_required`);
+	- `post_edit`: edita uma postagem existente (requer login);
+	- `post_draft_list`: exibe uma lista de posts ainda não publicados (requer login);
+	- `post_publish`: salva a postagem sem publicar (requer login);
+	- `post_remove`: remove uma postagem (requer login).
+	 
+- **`base/urls.py`**: Configura as rotas para as funcionalidades de `base/views.py`
+	- ``: `post_list`;
+	- `post/<int:pk>`: `post_detail`;
+	- `post/new`:`post_new`;
+	- `post/<int:pk>`: `post_edit`
+	- `drafts/`: `post_draft_list`;
+	- `post/<int:pk>/publish/`: `post_publish`;
+	- `post/<int:pk>/remove/`: `post_remove`.
+	
+- **`forms.py`**: Cria formulários de criação e edição de postagens e os valida.
+
 - **`settings.py`**: Configurações gerais do projeto Django.
 
 ---

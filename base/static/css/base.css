@@ -1,52 +1,68 @@
-.page-header {
-    margin-top: 0;
-    padding: 20px 20px 20px 40px;
+/* Variáveis globais para os modos claro e escuro */
+:root {
+  --background-color-light: #f8f9fa; /* Fundo claro */
+  --text-color-light: #212529; /* Texto para o modo claro */
+  --background-color-dark: #121212; /* Fundo escuro */
+  --text-color-dark: #e0e0e0; /* Texto claro para o modo escuro */
+
+  --navbar-bg-color-light: rgba(255, 255, 255, 0.8);
+  --navbar-bg-color-dark: rgba(0, 0, 0, 0.8);
 }
 
-.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-    color: #ffffff;
-    font-size: 36pt;
-    text-decoration: none;
+body.light-mode {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
 }
 
-.content {
-    margin-left: 40px;
+body.dark-mode {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
 }
 
-h1 a, h2 a {
-    font-family: 'Roboto Slab', serif;
-    font-weight: 900;
-    font-style: normal;
-    color: #D1345B;
+.navbar {
+  background-size: cover;
+  background-position: center;
 }
 
-body {
-    padding-left: 15px;
+body.light-mode .navbar {
+  background-color: var(--navbar-bg-color-light);
 }
 
-.date {
-    color: #828282;
+body.dark-mode .navbar {
+  background-color: var(--navbar-bg-color-dark);
 }
 
-.save {
-    float: right;
+.post-content {
+  text-align: justify;
 }
 
-.post-form textarea, .post-form input {
-    width: 100%;
+/* Acessibilidade para links */
+a {
+  color: var(--text-color-light);
 }
 
-.top-menu, .top-menu:hover, .top-menu:visited {
-    color: #ffffff;
-    float: right;
-    font-size: 26pt;
-    margin-right: 20px;
+body.dark-mode a {
+  color: var(--text-color-dark);
 }
 
-.post {
-    margin-bottom: 70px;
+/* Botão de pesquisa */
+.form-control {
+  background-color: var(--background-color-light);
+  color: var(--text-color-dark);
 }
 
-.post h2 a, .post h2 a:visited {
-    color: #000000;
+body.dark-mode .form-control {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-light);
+}
+
+/* Acessibilidade de botões */
+.btn-outline-light {
+  color: var(--text-color-light);
+  border-color: var(--text-color-light);
+}
+
+body.dark-mode .btn-outline-light {
+  color: var(--text-color-dark);
+  border-color: var(--text-color-dark);
 }
